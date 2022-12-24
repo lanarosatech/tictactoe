@@ -26,6 +26,7 @@ class Game
     else
       opponent = nil
       puts 'Invalid input. Please enter a valid number.'
+      return
     end
 
     if opponent == 1
@@ -42,6 +43,7 @@ class Game
       else
         difficulty = nil
         puts 'Invalid difficulty level. Please enter a valid number.'
+        return
       end
     end
 
@@ -73,23 +75,13 @@ class Game
             puts 'Game is a tie!'
             break
           end
+          current_player = 1
         else
           # get the second human player's move
           get_human_spot(2)
           # check if the game is over
           if game_is_over(@board)
             puts "Player 2 wins!"
-            break
-          elsif tie(@board)
-            puts "Game is a tie!"
-            break
-          end
-
-          # get the first human player's move
-          get_human_spot(1)
-          # check if the game is over
-          if game_is_over(@board)
-            puts "Player 1 wins!"
             break
           elsif tie(@board)
             puts "Game is a tie!"
