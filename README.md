@@ -124,3 +124,5 @@ Implementar novas features, como:
   Escolha de idioma, já que o jogo é mundialmente conhecido e muitos países tem nomes diferentes para o mesmo. Isso pode aumentar a afinidade do usuário com o jogo.
 
 No mais, segue um esboço feito no Figma para o frontend do nosso jogo:
+
+![](./tic-tac-toe.png)
