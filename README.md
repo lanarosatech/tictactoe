@@ -62,7 +62,7 @@ Implement new features, such as:
 
 In addition, here is a sketch made in Figma for the frontend of our game:
 
-![](../tic-tac-toe.png)
+![](./tic-tac-toe.png)
 
 -----
 
