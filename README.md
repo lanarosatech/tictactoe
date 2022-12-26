@@ -63,7 +63,7 @@ Implement new features, such as:
 In addition, here is a sketch made in Figma for the frontend of our game:
 
 
-<br><img src="tic-tac-toe.png width="20%" height="20%"/>
+<img"tic-tac-toe.png width="20%" height="20%"/>
 
 -----
 
