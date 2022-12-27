@@ -8,8 +8,8 @@ class Game
 
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    @com = 'X' # the computer's marker
-    @hum = 'O' # the user's marker
+    @computer = 'X' # the computer's marker
+    @human = 'O' # the user's marker
   end
 
   def start_game
@@ -104,7 +104,7 @@ class Game
         # check if the spot is available
         if @board[spot] != "X" && @board[spot] != "O"
           # set the board spot to the player's marker to indicate their move
-          @board[spot] = player == 1 ? @hum : @com
+          @board[spot] = player == 1 ? @human : @computer
         else
           spot = nil
         end
@@ -125,14 +125,14 @@ class Game
         if @board[4] == "4"
           spot = 4
         else
-          spot = get_best_corner_or_center_move(@board, @com)
+          spot = get_best_corner_or_center_move(@board, @computer)
         end
       when DIFFICULTIES[:hard]
         # for the hard difficulty level, the computer player makes the best possible move
-        spot = get_best_move(@board, @com)
+        spot = get_best_move(@board, @computer)
       end
       if @board[spot] != "X" && @board[spot] != "O"
-        @board[spot] = @com
+        @board[spot] = @computer
       else
         spot = nil
       end
@@ -154,25 +154,27 @@ class Game
   def get_best_move(board, next_player, depth = 0, best_score = {})
     available_spaces = []
     best_move = nil
-    board.each do |s|
-      if s != "X" && s != "O"
-        available_spaces << s
+
+    board.each do |space|
+      if space != "X" && space != "O"
+        available_spaces << space
       end
     end
-    available_spaces.each do |as|
-      board[as.to_i] = @com
+
+    available_spaces.each do |available|
+      board[available.to_i] = @computer
       if game_is_over(board)
-        best_move = as.to_i
-        board[as.to_i] = as
+        best_move = available.to_i
+        board[available.to_i] = available
         return best_move
       else
-        board[as.to_i] = @hum
+        board[available.to_i] = @human
         if game_is_over(board)
-          best_move = as.to_i
-          board[as.to_i] = as
+          best_move = available.to_i
+          board[available.to_i] = available
           return best_move
         else
-          board[as.to_i] = as
+          board[available.to_i] = available
         end
       end
     end
@@ -202,20 +204,22 @@ class Game
     return edges[n]
   end
 
-  def game_is_over(b)
-    [b[0], b[1], b[2]].uniq.length == 1 ||
-    [b[3], b[4], b[5]].uniq.length == 1 ||
-    [b[6], b[7], b[8]].uniq.length == 1 ||
-    [b[0], b[3], b[6]].uniq.length == 1 ||
-    [b[1], b[4], b[7]].uniq.length == 1 ||
-    [b[2], b[5], b[8]].uniq.length == 1 ||
-    [b[0], b[4], b[8]].uniq.length == 1 ||
-    [b[2], b[4], b[6]].uniq.length == 1
+  def game_is_over(board)
+    winning_combinations = [    [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],  # columns
+      [0, 4, 8], [2, 4, 6]  # diagonals
+    ]
+
+    winning_combinations.any? do |combination|
+      positions = combination.map { |i| board[i] }
+      positions.uniq.length == 1
+    end
   end
 
-  def tie(b)
-    b.all? { |s| s == "X" || s == "O" }
+  def tie(board)
+    board.all? { |space| space == "X" || space == "O" }
   end
 end
+
 game = Game.new
 game.start_game
